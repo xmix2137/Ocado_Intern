@@ -1,4 +1,4 @@
-//package com.ocado.basket;
+package com.ocado.basket;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 

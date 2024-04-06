@@ -1,3 +1,4 @@
+import com.ocado.basket.BasketSplitter;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -12,7 +13,7 @@ public class BasketSplitterTest {
 
     @BeforeEach
     void setUp() {
-        // Initialize the BasketSplitter object with a sample path to the configuration file
+        // Initialize the com.ocado.basket.BasketSplitter object with a sample path to the configuration file
         basketSplitter = new BasketSplitter("C:\\Users\\krzyc\\Desktop\\Testowy\\config.json");
     }
 
