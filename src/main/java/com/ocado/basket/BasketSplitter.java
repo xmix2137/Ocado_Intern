@@ -67,11 +67,6 @@ public class BasketSplitter {
             }
         }
 
-        // Check if the number of delivery groups does not exceed the limit
-        if (deliveryGroups.size() > MAX_DELIVERY_OPTIONS) {
-            throw new IllegalArgumentException("The number of different delivery methods exceeds the limit (10).");
-        }
-
         // Sort the map by the number of products for each delivery method
         List<Map.Entry<String, List<String>>> sortedEntries = new ArrayList<>(deliveryGroups.entrySet());
         sortedEntries.sort((entry1, entry2) -> Integer.compare(entry2.getValue().size(), entry1.getValue().size()));
