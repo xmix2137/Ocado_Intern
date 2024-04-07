@@ -1,12 +1,14 @@
 package com.ocado.basket;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-
 import java.io.File;
 import java.io.IOException;
 import java.util.*;
 
 public class BasketSplitter {
+    private static final int MAX_PRODUCTS_IN_CONFIG = 1000;
+    private static final int MAX_DELIVERY_OPTIONS = 10;
+
     private Map<String, List<String>> deliveryConfig;
 
     public BasketSplitter(String absolutePathToConfigFile) {
@@ -14,6 +16,20 @@ public class BasketSplitter {
         ObjectMapper objectMapper = new ObjectMapper();
         try {
             this.deliveryConfig = objectMapper.readValue(new File(absolutePathToConfigFile), Map.class);
+
+            // Check if the number of products in the configuration file does not exceed the limit
+            if (this.deliveryConfig.size() > MAX_PRODUCTS_IN_CONFIG) {
+                throw new IllegalArgumentException("The number of products in the configuration file exceeds the limit (1000).");
+            }
+
+            // Check if the number of unique delivery options does not exceed the limit
+            Set<String> uniqueDeliveryOptions = new HashSet<>();
+            for (List<String> options : this.deliveryConfig.values()) {
+                uniqueDeliveryOptions.addAll(options);
+            }
+            if (uniqueDeliveryOptions.size() > MAX_DELIVERY_OPTIONS) {
+                throw new IllegalArgumentException("The number of different delivery methods exceeds the limit (10).");
+            }
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -52,7 +68,7 @@ public class BasketSplitter {
         }
 
         // Check if the number of delivery groups does not exceed the limit
-        if (deliveryGroups.size() > 10) {
+        if (deliveryGroups.size() > MAX_DELIVERY_OPTIONS) {
             throw new IllegalArgumentException("The number of different delivery methods exceeds the limit (10).");
         }
 

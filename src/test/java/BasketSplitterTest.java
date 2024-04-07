@@ -2,9 +2,8 @@ import com.ocado.basket.BasketSplitter;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
+
+import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -47,4 +46,37 @@ public class BasketSplitterTest {
         // Compare expected results with actual results
         assertEquals(expected, result);
     }
+
+    @Test
+    void split_MaximumItemsInBasket_ShouldThrowException() {
+        // Prepare input data with more than 100 products in the basket
+        List<String> items = new ArrayList<>();
+        for (int i = 0; i < 101; i++) {
+            items.add("Product" + i);
+        }
+
+        // Call the split method and expect an IllegalArgumentException to be thrown
+        assertThrows(IllegalArgumentException.class, () -> basketSplitter.split(items));
+    }
+
+    @Test
+    void constructor_TooManyProductsInConfig_ShouldThrowException() {
+        // Prepare a configuration file with more than 1000 products
+        String absolutePathToConfigFile = "C:\\Users\\krzyc\\Desktop\\Testowy\\bad_config1.json";
+
+        // Call the constructor and expect an IllegalArgumentException to be thrown
+        assertThrows(IllegalArgumentException.class, () -> new BasketSplitter(absolutePathToConfigFile));
+    }
+
+    @Test
+    void constructor_TooManyDeliveryOptionsInConfig_ShouldThrowException() {
+        // Prepare a configuration file with more than 10 delivery options
+        String absolutePathToConfigFile = "C:\\Users\\krzyc\\Desktop\\Testowy\\bad_config2.json";
+
+        // Call the constructor and expect an IllegalArgumentException to be thrown
+        assertThrows(IllegalArgumentException.class, () -> {
+            new BasketSplitter(absolutePathToConfigFile);
+        });
+    }
+
 }
